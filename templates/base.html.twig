@@ -1,3 +1,5 @@
+{# templates/base.html.twig #}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,7 +8,19 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div id="sidebar">
+            {% block sidebar %}
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/lucky/number">Lucky</a></li>
+                </ul>
+            {% endblock %}
+        </div>
+        <div id="content">
+            {% block body %}
+             This is the main page
+            {% endblock %}
+            {% block javascripts %}{% endblock %}
+        </div>
     </body>
 </html>

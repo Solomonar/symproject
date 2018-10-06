@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
-class DefaultController
+class DefaultController extends AbstractController
 {
     public function index()
     {
-        return new Response(
-            '<html><body>front page</body></html>'
-        );
+        return $this->render('base.html.twig');
     }
 }
