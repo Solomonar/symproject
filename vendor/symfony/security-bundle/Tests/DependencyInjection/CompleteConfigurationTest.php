@@ -159,8 +159,8 @@ abstract class CompleteConfigurationTest extends TestCase
                 null,
                 null,
                 array(
-                  'simple_form',
-                  'anonymous',
+                    'simple_form',
+                    'anonymous',
                 ),
                 null,
             ),
@@ -438,11 +438,22 @@ abstract class CompleteConfigurationTest extends TestCase
 
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     * @expectedExceptionMessage "strategy" and "service" cannot be used together.
+     * @expectedExceptionMessage Invalid configuration for path "security.access_decision_manager": "strategy" and "service" cannot be used together.
      */
     public function testAccessDecisionManagerServiceAndStrategyCannotBeUsedAtTheSameTime()
     {
-        $container = $this->getContainer('access_decision_manager_service_and_strategy');
+        $this->getContainer('access_decision_manager_service_and_strategy');
+    }
+
+    public function testAccessDecisionManagerOptionsAreNotOverriddenByImplicitStrategy()
+    {
+        $container = $this->getContainer('access_decision_manager_customized_config');
+
+        $accessDecisionManagerDefinition = $container->getDefinition('security.access.decision_manager');
+
+        $this->assertSame(AccessDecisionManager::STRATEGY_AFFIRMATIVE, $accessDecisionManagerDefinition->getArgument(1));
+        $this->assertTrue($accessDecisionManagerDefinition->getArgument(2));
+        $this->assertFalse($accessDecisionManagerDefinition->getArgument(3));
     }
 
     /**
@@ -477,7 +488,7 @@ abstract class CompleteConfigurationTest extends TestCase
 
     protected function getContainer($file)
     {
-        $file = $file.'.'.$this->getFileExtension();
+        $file .= '.'.$this->getFileExtension();
 
         $container = new ContainerBuilder();
         $security = new SecurityExtension();
