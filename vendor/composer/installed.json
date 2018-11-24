@@ -3796,17 +3796,17 @@
     },
     {
         "name": "symfony/maker-bundle",
-        "version": "v1.6.0",
-        "version_normalized": "1.6.0.0",
+        "version": "v1.9.0",
+        "version_normalized": "1.9.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/maker-bundle.git",
-            "reference": "a1b0d9ff35219ec36c44fcc6213056cc339a1cf8"
+            "reference": "e873047b6022a0343c9354f65d5d47b9e351dd53"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/a1b0d9ff35219ec36c44fcc6213056cc339a1cf8",
-            "reference": "a1b0d9ff35219ec36c44fcc6213056cc339a1cf8",
+            "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/e873047b6022a0343c9354f65d5d47b9e351dd53",
+            "reference": "e873047b6022a0343c9354f65d5d47b9e351dd53",
             "shasum": ""
         },
         "require": {
@@ -3827,9 +3827,10 @@
             "doctrine/orm": "^2.3",
             "friendsofphp/php-cs-fixer": "^2.8",
             "symfony/phpunit-bridge": "^3.4|^4.0",
-            "symfony/process": "^3.4|^4.0"
+            "symfony/process": "^3.4|^4.0",
+            "symfony/yaml": "^3.4|^4.0"
         },
-        "time": "2018-08-07T16:05:09+00:00",
+        "time": "2018-11-03T18:25:11+00:00",
         "type": "symfony-bundle",
         "extra": {
             "branch-alias": {

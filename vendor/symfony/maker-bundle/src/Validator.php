@@ -13,6 +13,7 @@ namespace Symfony\Bundle\MakerBundle;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\MakerBundle\Exception\RuntimeCommandException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
@@ -116,16 +117,24 @@ final class Validator
         return $valueAsBool;
     }
 
+    public static function validatePropertyName(string $name)
+    {
+        // check for valid PHP variable name
+        if (null !== $name && !Str::isValidPhpVariableName($name)) {
+            throw new \InvalidArgumentException(sprintf('"%s" is not a valid PHP property name.', $name));
+        }
+
+        return $name;
+    }
+
     public static function validateDoctrineFieldName(string $name, ManagerRegistry $registry)
     {
         // check reserved words
         if ($registry->getConnection()->getDatabasePlatform()->getReservedKeywordsList()->isKeyword($name)) {
             throw new \InvalidArgumentException(sprintf('Name "%s" is a reserved word.', $name));
         }
-        // check for valid PHP variable name
-        if (null !== $name && !Str::isValidPhpVariableName($name)) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid PHP property name.', $name));
-        }
+
+        self::validatePropertyName($name);
 
         return $name;
     }
@@ -175,5 +184,27 @@ final class Validator
         }
 
         return $className;
+    }
+
+    public static function classDoesNotExist($className): string
+    {
+        self::notBlank($className);
+
+        if (class_exists($className)) {
+            throw new RuntimeCommandException(sprintf('Class "%s" already exists', $className));
+        }
+
+        return $className;
+    }
+
+    public static function classIsUserInterface($userClassName): string
+    {
+        self::classExists($userClassName);
+
+        if (!isset(class_implements($userClassName)[UserInterface::class])) {
+            throw new RuntimeCommandException(sprintf('The class "%s" must implement "%s".', $userClassName, UserInterface::class));
+        }
+
+        return $userClassName;
     }
 }
